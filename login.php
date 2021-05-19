@@ -1,19 +1,29 @@
 ﻿<?php
 require_once 'mysql.php';
 if(!empty($_POST)){
+	  $con=connect('localhost','root','root','p301');
+	  $username=$_POST['username'];
+	  $password=md5($_POST['password']);
 
-  $username=$_POST['username'];
-  $password=md5($_POST['password']);
-  $sql="select * from `admin` where `username`='$username' and `password`='$password'";
-  $date=mysqli_query($con,$sql);
+      $arr=array(
+	        'username'=>$username,
+	        'password'=>$password,
+      	);
 
-  $num=mysqli_fetch_assoc($date);
-  if(!empty($num)){
-       echo '<script>alert("登录成功");</script>';
+      insert($arr,'p301');
+ 
 
-  }else{
-  	  echo '<script>alert("密码或用户名出错");history.go(-1);</script>';
-  }
+	  // $sql="select * from `admin` where `username`='$username' and `password`='$password'";
+
+	  // $date=selectOne($con,$sql);
+
+
+	  // if($date){
+	  //      echo '<script>alert("登录成功");</script>';
+
+	  // }else{
+	  // 	  echo '<script>alert("密码或用户名出错");window.location.href="login.php";</script>';
+	  // }
 }
 ?>
 
