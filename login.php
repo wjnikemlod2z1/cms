@@ -5,25 +5,20 @@ if(!empty($_POST)){
 	  $username=$_POST['username'];
 	  $password=md5($_POST['password']);
 
-      $arr=array(
-	        'username'=>$username,
-	        'password'=>$password,
-      	);
 
-      insert($arr,'p301');
  
 
-	  // $sql="select * from `admin` where `username`='$username' and `password`='$password'";
+	  $sql="select * from `admin` where `username`='$username' and `password`='$password'";
 
-	  // $date=selectOne($con,$sql);
+	  $date=selectOne($con,$sql);
 
 
-	  // if($date){
-	  //      echo '<script>alert("登录成功");</script>';
+	  if($date){
+	       echo '<script>alert("登录成功");</script>';
 
-	  // }else{
-	  // 	  echo '<script>alert("密码或用户名出错");window.location.href="login.php";</script>';
-	  // }
+	  }else{
+	  	  echo '<script>alert("密码或用户名出错");window.location.href="login.php";</script>';
+	  }
 }
 ?>
 

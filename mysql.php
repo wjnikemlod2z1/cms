@@ -32,13 +32,22 @@ function selectOne($con,$sql){
     }
 }
 
-function insert($arr,$table){
-	$key=join(',',array_keys($arr));  //将键值连接
-	$date=implode(',',$arr);
-	print_r($arr);
-	die();
-	// $sql='insert into'.$table
-	//$result=mysqli_query($con,$sql);
+function insert($con,$arr,$table){
+	$key="`".join("`,`",array_keys($arr))."`";  //将键值连接          
+	$value="'".join("','",array_values($arr))."'";
+	$sql="insert into `{$table}`({$key}) values({$value})";
+	echo $sql;die();
+	$result=mysqli_query($con,$sql);
+    return mysqli_insert_id();
+
+
 }
+
+
+// function update($con,$arr,$table){
+
+// $sql="update {$table} set {} where {}";
+
+// }
 
 ?>
