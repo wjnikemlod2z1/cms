@@ -44,10 +44,10 @@ function insert($con,$arr,$table){
 }
 
 
-// function update($con,$arr,$table){
+function update($con,$arr,$table){
 
-// $sql="update {$table} set {} where {}";
+$sql="update {$table} set {} where {}";
 
-// }
+}
 
 ?>

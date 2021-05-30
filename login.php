@@ -5,14 +5,9 @@ if(!empty($_POST)){
 	  $username=$_POST['username'];
 	  $password=md5($_POST['password']);
 
-
- 
-
 	  $sql="select * from `admin` where `username`='$username' and `password`='$password'";
 
 	  $date=selectOne($con,$sql);
-
-
 	  if($date){
 	       echo '<script>alert("登录成功");</script>';
 
