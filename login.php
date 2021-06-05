@@ -1,18 +1,22 @@
 ﻿<?php
-require_once 'mysql.php';
+require_once 'mysql.php';//引入操作数据库的文件
+
 if(!empty($_POST)){
+	  //连接数据库
 	  $con=connect('localhost','root','root','p301');
 	  $username=$_POST['username'];
 	  $password=md5($_POST['password']);
 
 	  $sql="select * from `admin` where `username`='$username' and `password`='$password'";
-
+	  //通过使用该函数返回查询的值，有则返回数据(true)，没有则返回空（false）
 	  $date=selectOne($con,$sql);
 	  if($date){
-	       echo '<script>alert("登录成功");</script>';
+	  	   session_start();  //开启回话
+	  	   $_SESSION['admin']=$date;
+	       echo '<script>alert("登录成功");location.href="index.php";</script>';
 
 	  }else{
-	  	  echo '<script>alert("密码或用户名出错");window.location.href="login.php";</script>';
+	  	  echo '<script>alert("密码或用户名出错");location.href="login.php";</script>';
 	  }
 }
 ?>

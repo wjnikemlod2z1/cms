@@ -44,9 +44,23 @@ function insert($con,$arr,$table){
 }
 
 
-function update($con,$arr,$table){
-
-$sql="update {$table} set {} where {}";
+function update($arr,$where){
+	foreach ($arr as $k => $v) {
+		$str[]='`'.$k."`='".$v."'";
+	}
+    
+    foreach ($where as $k => $v) {
+    	$condition[]='`'.$k."`=".$v;
+    }
+	$strs=implode(',',$str);
+	$conditions=implode(' and ',$condition);
+	$sql="update {$table} set {$strs} where {$conditions}";
+	$a=mysqli_query($sql);
+	if($a){
+         return true;
+	}else{
+		return false;
+	}
 
 }
 
