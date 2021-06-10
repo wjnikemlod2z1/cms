@@ -5,7 +5,6 @@ session_start();
 if(empty($_SESSION['admin'])){   
   echo '<script>alert("请先登录");location.href="login.php";</script>';
 }
-
 ?>
 
 <!DOCTYPE html>

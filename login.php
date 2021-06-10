@@ -2,16 +2,32 @@
 require_once 'mysql.php';//引入操作数据库的文件
 
 if(!empty($_POST)){
+
 	  //连接数据库
 	  $con=connect('localhost','root','root','p301');
 	  $username=$_POST['username'];
-	  $password=md5($_POST['password']);
+	  // $password=(!empty($_COOKIE['password']))?$_COOKIE['password']:md5($_POST['password']);
+
+	  if(!empty($_COOKIE['password'])&&$_POST['password']==$_COOKIE['password']){
+	  	$password=$_COOKIE['password'];
+	  }else{
+        $password=md5($_POST['password']);
+	  }
 
 	  $sql="select * from `admin` where `username`='$username' and `password`='$password'";
 	  //通过使用该函数返回查询的值，有则返回数据(true)，没有则返回空（false）
 	  $date=selectOne($con,$sql);
 	  if($date){
 	  	   session_start();  //开启回话
+	  	   if(!empty($_POST['checkbox'])){
+            setcookie('username',$date['username'],time()+3600);
+            setcookie('password',$date['password'],time()+3600);
+	  	   }else{
+            setcookie('username','',0);
+            setcookie('password','',0);
+	  	   }
+
+
 	  	   $_SESSION['admin']=$date;
 	       echo '<script>alert("登录成功");location.href="index.php";</script>';
 
@@ -75,15 +91,15 @@ if(!empty($_POST)){
 								  <div class="form-group">
 									<label for="exampleInputEmail1">用户名</label>
 									<i class="fa fa-envelope"></i>
-									<input name="username" type="text" class="form-control" id="exampleInputEmail1" >
+									<input name="username" type="text" class="form-control" id="exampleInputEmail1" value="<?php echo (!empty($_COOKIE['username'])?$_COOKIE['username']:'') ?>">
 								  </div>
 								  <div class="form-group">
 									<label for="exampleInputPassword1">密码</label>
 									<i class="fa fa-lock"></i>
-									<input name="password" type="password" class="form-control" id="exampleInputPassword1" >
+									<input name="password" type="password" class="form-control" value="<?php echo (!empty($_COOKIE['password'])?$_COOKIE['password']:'') ?>" id="exampleInputPassword1" >
 								  </div>
 								  <div>
-									<label class="checkbox"> <input type="checkbox" class="uniform" value=""> 记住我</label>
+									<label class="checkbox"> <input name="checkbox" type="checkbox" <?php echo (!empty($_COOKIE['username'])?'checked':'') ?> class="uniform" value="1"> 记住我</label>
 									<button type="submit" class="btn btn-danger">提交</button>
 								  </div>
 								</form>
