@@ -6,13 +6,11 @@ if(!empty($_POST)){
 	  //连接数据库
 	  $con=connect('localhost','root','root','p301');
 	  $username=$_POST['username'];
-	  // $password=(!empty($_COOKIE['password']))?$_COOKIE['password']:md5($_POST['password']);
 
-	  if(!empty($_COOKIE['password'])&&$_POST['password']==$_COOKIE['password']){
-	  	$password=$_COOKIE['password'];
-	  }else{
-        $password=md5($_POST['password']);
-	  }
+
+	  $password=((!empty($_COOKIE['password']))&&($_POST['password']==$_COOKIE['password']))?$_COOKIE['password']:md5($_POST['password']);
+
+
 
 	  $sql="select * from `admin` where `username`='$username' and `password`='$password'";
 	  //通过使用该函数返回查询的值，有则返回数据(true)，没有则返回空（false）
@@ -32,6 +30,8 @@ if(!empty($_POST)){
 	       echo '<script>alert("登录成功");location.href="index.php";</script>';
 
 	  }else{
+	  	  setcookie('username','',0);
+          setcookie('password','',0);
 	  	  echo '<script>alert("密码或用户名出错");location.href="login.php";</script>';
 	  }
 }
